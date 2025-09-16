@@ -1,21 +1,27 @@
-import string
-
 from translate import Translator
-translator= Translator(from_lang="ru", to_lang="en")
-
 from textblob import TextBlob
-text = input()
-text = translator.translate(text)
-polarity = TextBlob(text).sentiment.polarity
-subjectivity = TextBlob(text).sentiment.subjectivity
-objectivity = round((1 - subjectivity)*100, 2)
-if round(polarity) > 0:
-    print('Тональность текста: положительный ', polarity)
-elif round(polarity) == 0:
-    print('Тональность текста: нейтральный')
-else:
-    print('Тональность текста: негативный')
-
-print('Объективность текста: ', (1-subjectivity)*100, '%')
 
 
+def polarity_and_objectivity(text):
+    """Переводит русский текст на английский.
+
+    Определяет его тональность и степень объективности.
+    """
+    translator = Translator(from_lang="ru", to_lang="en")
+    text = translator.translate(text)
+    polarity = TextBlob(text).sentiment.polarity
+    subjectivity = TextBlob(text).sentiment.subjectivity
+    objectivity = round((1 - subjectivity) * 100, 2)
+    if round(polarity) > 0:
+        print('Тональность текста: положительный ',polarity)
+    elif round(polarity) == 0:
+        print('Тональность текста: нейтральный')
+    else:
+        print('Тональность текста: негативный')
+
+    print('Объективность текста: ', objectivity, '%')
+
+
+if __name__ == "__main__":
+    message = input()
+    polarity_and_objectivity(message)
